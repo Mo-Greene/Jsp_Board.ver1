@@ -38,7 +38,7 @@
 
         conn.close();
     } catch(SQLException e) {
-        out.println( e.toString() );
+        System.out.println(e.getErrorCode());
     }
 %>
 
