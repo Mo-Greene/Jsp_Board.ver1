@@ -1,9 +1,7 @@
 package org.board.jspboard.util;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-
 import java.sql.Connection;
+import java.sql.DriverManager;
 
 /**
  * PackageName : org.board.jspboard.util
@@ -11,23 +9,22 @@ import java.sql.Connection;
  * Date : 2023/02/06
  * Description :
  */
-public enum ConnectionUtil {
+public class ConnectionUtil {
+    public ConnectionUtil() {}
 
-    INSTANCE;
+    public static Connection getConnection() {
+        String url = "jdbc:mariadb://localhost:3306/board";
+        String username = "root";
+        String password = "1234";
 
-    private final HikariDataSource dataSource;
+        Connection con = null;
 
-    ConnectionUtil() {
-        HikariConfig config = new HikariConfig();
-        config.setDriverClassName("org.mariadb.jdbc.Driver");
-        config.setJdbcUrl("jdbc:mariadb://localhost:3306/board");
-        config.setUsername("root");
-        config.setPassword("1234");
-
-        dataSource = new HikariDataSource(config);
-    }
-
-    public Connection getConnection() throws Exception {
-        return dataSource.getConnection();
+        try {
+            Class.forName("org.mariadb.jdbc.Driver");
+            con = DriverManager.getConnection(url, username, password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return con;
     }
 }

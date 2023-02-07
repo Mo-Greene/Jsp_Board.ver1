@@ -22,8 +22,10 @@ public class BoardVo {
     private boolean files;
     private String title;
     private String writer;
+    private String content;
     private int view;
     private String regDate;
     private String modDate;
+    private String password;
 
 }
