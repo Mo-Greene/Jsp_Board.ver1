@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
-<%@ page import="java.sql.*" %>
+<%@ page import="java.sql.*,java.text.SimpleDateFormat" %>
+<%@ page import="java.text.ParseException" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -59,8 +60,14 @@
             String title = rs.getString(3);
             String writer = rs.getString(4);
             int view = rs.getInt(5);
-            String regDate = String.valueOf(rs.getDate(6));
-            String modDate = String.valueOf(rs.getDate(7));
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
+            String regDate = simpleDateFormat.format(rs.getTimestamp(6));
+            String modDate = null;
+            try {
+                modDate = simpleDateFormat.format(rs.getTimestamp(7));
+            } catch (NullPointerException e) {
+                modDate = "-";
+            }
     %>
     <tr height="25" align="center">
         <td><%=category%>

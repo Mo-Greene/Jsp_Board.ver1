@@ -1,5 +1,6 @@
 <%@ page import="java.time.LocalDateTime" %>
 <%@ page import="java.sql.*" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java"
          pageEncoding="UTF-8" %>
 <%
@@ -22,8 +23,14 @@
             String writer = rs.getString(1);
             String title = rs.getString(2);
             String content = rs.getString(3);
-            Date regDate = rs.getDate(4);
-            Date modDate = rs.getDate(5);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
+            String regDate = simpleDateFormat.format(rs.getTimestamp(4));
+            String modDate = null;
+            try {
+                modDate = simpleDateFormat.format(rs.getTimestamp(5));
+            } catch (NullPointerException e) {
+                modDate = "-";
+            }
             int view = rs.getInt(6);
             String category = rs.getString(7);
             view++;
@@ -61,6 +68,21 @@
     <%
                 sql = "update board set view = " + view + " where bno = " + bno;
                 stmt.executeQuery(sql);
+
+                String replySql = "select replyContent, regDate from reply where bno = " + bno +
+                        " order by regDate desc";
+
+                ResultSet resultReply = stmt.executeQuery(replySql);
+        while (resultReply.next()) {
+            String replyContent = resultReply.getString(1);
+            String replyRegDate = String.valueOf(resultReply.getDate(2));
+    %>
+    <tr>
+        <td><%=replyRegDate%></td>
+        <td><%=replyContent%></td>
+    </tr>
+    <%
+                }
                 rs.close();
                 stmt.close();
                 con.close();
@@ -68,6 +90,14 @@
         } catch (SQLException e) {}
     %>
 
+    <tr height="1" bgcolor="#dddddd"><td colspan="4"></td></tr>
+    <form name="replyForm" action="reply_ok.jsp?bno=<%=bno%>" method="post">
+        <tr>
+            <td><textarea name="replyContent" cols="50" rows="6"></textarea></td>
+            <td><button type="submit">댓글 저장</button></td>
+        </tr>
+    </form>
+    <tr height="1" bgcolor="#dddddd"><td colspan="4"></td></tr>
 
 
     <tr>
