@@ -1,9 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
-<%@ page import="org.board.jspboard.board.BoardVo" %>
-<%@ page import="java.util.List" %>
 <%@ page import="java.sql.*" %>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -34,7 +31,7 @@
         rs = stmt.executeQuery(sqlList);
 %>
 
-총 <%=total %> 건<br/>
+총 <%=total%> 건<br/>
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
     <tr style="text-align: center">
@@ -66,17 +63,17 @@
             String modDate = String.valueOf(rs.getDate(7));
     %>
     <tr height="25" align="center">
-        <td><%=category %>
+        <td><%=category%>
         </td>
-        <td align="center"><a href="view.jsp?bno=<%=bno%>"><%=title %>
+        <td align="center"><a href="view.jsp?bno=<%=bno%>"><%=title%>
         </td>
-        <td align="center"><%=writer %>
+        <td align="center"><%=writer%>
         </td>
-        <td align="center"><%=view %>
+        <td align="center"><%=view%>
         </td>
-        <td align="center"><%=regDate %>
+        <td align="center"><%=regDate%>
         </td>
-        <td align="center"><%=modDate %>
+        <td align="center"><%=modDate%>
         </td>
         <td>&nbsp;</td>
     </tr>

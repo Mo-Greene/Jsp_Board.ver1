@@ -73,7 +73,7 @@
     <tr>
         <td colspan="2" width="399">
             <input type="button" value="목록" onclick="window.location='list.jsp'">
-            <input type="button" value="수정" onclick="window.location='modify.jsp'">
+            <input type="button" value="수정" onclick="window.location='modify.jsp?bno=<%=bno%>'">
             <input type="button" value="삭제" onclick="window.location='delete.jsp?bno=<%=bno%>'">
         </td>
     </tr>
