@@ -1,4 +1,4 @@
-package org.board.jspboard.util;
+package org.board.jspboard.common.util;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -11,13 +11,13 @@ import java.sql.Connection;
  * Date : 2023/02/09
  * Description : Hikari Config
  */
-public enum HikariCpUtil {
+public enum ConnectUtil {
 
     INSTANCE;
 
     private HikariDataSource dataSource;
 
-    HikariCpUtil() {
+    ConnectUtil() {
         HikariConfig config = new HikariConfig();
         config.setDriverClassName("org.mariadb.jdbc.Driver");
         config.setJdbcUrl("jdbc:mariadb://localhost:3306/board");

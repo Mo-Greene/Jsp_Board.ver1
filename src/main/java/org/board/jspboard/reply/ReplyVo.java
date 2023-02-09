@@ -2,15 +2,13 @@ package org.board.jspboard.reply;
 
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 /**
  * PackageName : org.board.jspboard.reply
  * Author : Mo-Greene
  * Date : 2023/02/07
  * Description :
  */
-@Builder
+@Setter
 @Getter
 @ToString
 @NoArgsConstructor
@@ -19,6 +17,6 @@ public class ReplyVo {
 
     private Long rno;
     private String replyContent;
-    private LocalDateTime regDate;
+    private String regDate;
     private Long bno;   //fk key
 }
