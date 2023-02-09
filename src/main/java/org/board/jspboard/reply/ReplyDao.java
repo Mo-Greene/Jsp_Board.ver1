@@ -20,6 +20,7 @@ public class ReplyDao {
      * view.jsp -> 댓글목록 조회
      */
     public List<ReplyVo> getReplyList(long bno) throws Exception {
+        log.info("ReplyDao getReplyList.");
         String sql = "select replyContent, regDate from reply where bno = " + bno +
                 " order by regDate desc";
 
@@ -36,5 +37,21 @@ public class ReplyDao {
             list.add(vo);
         }
         return list;
+    }
+
+    /**
+     * reply_ok.jsp -> 댓글등록
+     */
+    public void replyInsert(ReplyVo vo) throws Exception {
+        log.info("ReplyDao replyInsert.");
+        String sql = "insert into reply (replyContent, regDate, bno) " +
+                "values (?, default, ?)";
+
+        @Cleanup Connection connection = ConnectUtil.INSTANCE.getConnection();
+        @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, vo.getReplyContent());
+        preparedStatement.setLong(2, vo.getBno());
+
+        preparedStatement.executeUpdate();
     }
 }

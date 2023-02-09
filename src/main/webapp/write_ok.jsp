@@ -8,7 +8,6 @@
 
 <%
     dao.insert(vo);
-    System.out.println("write_ok.jsp vo : " + vo);
 %>
 
 <script language="javascript">
