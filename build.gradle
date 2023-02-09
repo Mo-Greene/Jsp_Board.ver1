@@ -39,7 +39,6 @@ dependencies {
     //HikariCP
     compileOnly('javax.servlet:javax.servlet-api:4.0.1')
     implementation group: 'com.zaxxer', name: 'HikariCP', version: '5.0.0'
-
 }
 
 test {

@@ -4,7 +4,6 @@
 <%@ page import="java.sql.Connection" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
-<jsp:useBean id="dao" class="org.board.jspboard.board.BoardDao"/>
 <jsp:useBean id="vo" class="org.board.jspboard.board.BoardVo"/>
 
 <%
