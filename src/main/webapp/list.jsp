@@ -2,6 +2,23 @@
          pageEncoding="UTF-8" %>
 <%@ page import="java.sql.*,java.text.SimpleDateFormat" %>
 <%@ page import="java.text.ParseException" %>
+<%
+    final int size = 10; //한페이지 게시물 수
+    final int block = 10; //페이지 하단 페이지 최대개수
+
+    int pg = 1; //기본 페이지값
+
+    if (request.getParameter("pg") != null) { //pg값 받았으면 변수 지정
+        pg = Integer.parseInt(request.getParameter("pg"));
+    }
+    int start = (pg * size) - (size - 1); //해당 페이지 시작번호
+    int end = pg * size;  //해당 페이지 끝번호
+
+    int totalPage = 0;  //전체 페이지
+
+    int startPage = ((pg - 1) / block * block) + 1; //시작 블럭 숫자(1-10일 경우 1)
+    int endPage = ((pg - 1) / block * block) + block; //끝 블럭 숫자(1-10일 경우 10)
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -26,7 +43,8 @@
         if (rs.next()) {
             total = rs.getInt(1);
         }
-        rs.close();
+
+
 
         String sqlList = "select bno, category, title, writer, view, regDate, modDate from board order by bno desc";
         rs = stmt.executeQuery(sqlList);

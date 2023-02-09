@@ -2,8 +2,6 @@ package org.board.jspboard.board;
 
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 /**
  * PackageName : org.board.jspboard.board
  * Author : Mo-Greene

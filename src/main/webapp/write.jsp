@@ -42,8 +42,8 @@
           <tr>
             <td>&nbsp;</td>
             <td align="center">비밀번호</td>
-            <td><input type="password" name="password" size="20" maxlength="10">
-              <input type="password" name="passwordCheck" size="20" maxlength="10"></td>
+            <td><input type="password" name="password" size="20" maxlength="10" placeholder="비밀번호">
+              <input type="password" name="passwordCheck" size="20" maxlength="10" placeholder="비밀번호 확인"></td>
             <td>&nbsp;</td>
           </tr>
           <tr height="1" bgcolor="#dddddd"><td colspan="4"></td></tr>
