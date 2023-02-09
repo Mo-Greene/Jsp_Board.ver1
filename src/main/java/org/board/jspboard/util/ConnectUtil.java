@@ -1,29 +1,36 @@
 package org.board.jspboard.util;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 import java.sql.Connection;
-import java.sql.DriverManager;
 
 /**
  * PackageName : org.board.jspboard.util
  * Author : Mo-Greene
  * Date : 2023/02/09
- * Description : Jdbc connection
+ * Description : Hikari Config
  */
-public class ConnectUtil {
-    public ConnectUtil() {}
+public enum ConnectUtil {
 
-    public Connection getConnection() {
-        String url = "jdbc:mariadb://localhost:3306/board";
-        String username = "root";
-        String password = "1234";
+    INSTANCE;
 
-        Connection con = null;
-        try {
-            Class.forName("org.mariadb.jdbc.Driver");
-            con = DriverManager.getConnection(url, username, password);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return con;
+    private HikariDataSource dataSource;
+
+    ConnectUtil() {
+        HikariConfig config = new HikariConfig();
+        config.setDriverClassName("org.mariadb.jdbc.Driver");
+        config.setJdbcUrl("jdbc:mariadb://localhost:3306/board");
+        config.setUsername("root");
+        config.setPassword("1234");
+        config.addDataSourceProperty("cachePrepStmts", "true");
+        config.addDataSourceProperty("prepStmtCacheSize", "250");
+        config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+
+        dataSource = new HikariDataSource(config);
+    }
+
+    public Connection getConnection() throws Exception {
+        return dataSource.getConnection();
     }
 }

@@ -1,39 +1,14 @@
-<%@ page import="java.time.LocalDateTime" %>
-<%@ page import="java.sql.*" %>
-<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="org.board.jspboard.board.BoardVo" %>
+<%@ page import="org.board.jspboard.reply.ReplyVo" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java"
          pageEncoding="UTF-8" %>
+<jsp:useBean id="boardDao" class="org.board.jspboard.board.BoardDao"/>
+<jsp:useBean id="replyDao" class="org.board.jspboard.reply.ReplyDao"/>
 <%
-    Class.forName("org.mariadb.jdbc.Driver");
-    String url = "jdbc:mariadb://localhost:3306/board";
-    String id = "root";
-    String pw = "1234";
     long bno = Long.parseLong(request.getParameter("bno"));
-
-    try {
-        Connection con = DriverManager.getConnection(url, id, pw);
-        Statement stmt = con.createStatement();
-
-        String sql = "select writer, title, content, regDate, modDate, view, category " +
-                "from board where bno = " + bno;
-
-        ResultSet rs = stmt.executeQuery(sql);
-
-        if (rs.next()) {
-            String writer = rs.getString(1);
-            String title = rs.getString(2);
-            String content = rs.getString(3);
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
-            String regDate = simpleDateFormat.format(rs.getTimestamp(4));
-            String modDate = null;
-            try {
-                modDate = simpleDateFormat.format(rs.getTimestamp(5));
-            } catch (NullPointerException e) {
-                modDate = "-";
-            }
-            int view = rs.getInt(6);
-            String category = rs.getString(7);
-            view++;
+    BoardVo boardVo = boardDao.getView(bno);
+    List<ReplyVo> replyVo = replyDao.getReplyList(bno);
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -44,50 +19,36 @@
 
 <table>
     <tr>
-        <td><%=writer%>
+        <td><%=boardVo.getWriter()%>
         </td>
-        <td>등록일시 <%=regDate%>
+        <td>등록일시 <%=boardVo.getRegDate()%>
         </td>
         <br/>
-        <td>수정일시 <%=modDate%>
+        <td>수정일시 <%=boardVo.getModDate()%>
         </td>
     </tr>
     <tr>
-        <td>조회수 : <%=view%>
+        <td>조회수 : <%=boardVo.getView()%>
         </td>
     </tr>
     <tr>
-        <td align="center">[<%=category%>]</td>
-        <td><%=title%>
+        <td align="center">[<%=boardVo.getCategory()%>]</td>
+        <td><%=boardVo.getTitle()%>
         </td>
     </tr>
     <tr>
-        <td><%=content%>
+        <td><%=boardVo.getContent()%>
         </td>
     </tr>
     <%
-                sql = "update board set view = " + view + " where bno = " + bno;
-                stmt.executeQuery(sql);
-
-                String replySql = "select replyContent, regDate from reply where bno = " + bno +
-                        " order by regDate desc";
-
-                ResultSet resultReply = stmt.executeQuery(replySql);
-        while (resultReply.next()) {
-            String replyContent = resultReply.getString(1);
-            String replyRegDate = String.valueOf(resultReply.getDate(2));
+        for (int i = 0; i < replyVo.size(); i++) {
     %>
     <tr>
-        <td><%=replyRegDate%></td>
-        <td><%=replyContent%></td>
+        <td><%=replyVo.get(i).getReplyContent()%></td>
+        <td><%=replyVo.get(i).getRegDate()%></td>
     </tr>
     <%
-                }
-                rs.close();
-                stmt.close();
-                con.close();
-            }
-        } catch (SQLException e) {}
+        }
     %>
 
     <tr height="1" bgcolor="#dddddd"><td colspan="4"></td></tr>
@@ -99,7 +60,6 @@
     </form>
     <tr height="1" bgcolor="#dddddd"><td colspan="4"></td></tr>
 
-
     <tr>
         <td colspan="2" width="399">
             <input type="button" value="목록" onclick="window.location='list.jsp'">
@@ -108,6 +68,8 @@
         </td>
     </tr>
 </table>
-
+<%
+    boardDao.viewUpdate(bno);
+%>
 </body>
 </html>

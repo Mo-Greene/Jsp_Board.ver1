@@ -8,7 +8,7 @@
 <body>
 <table>
 
-  <form name="writeForm" action="write_ok.jsp" method="post">
+  <form name="writeForm" action="write_ok.jsp" method="post" accept-charset="UTF-8">
       <tr>
       <td>
         <table width="100%" cellpadding="0" cellspacing="0" border="0">

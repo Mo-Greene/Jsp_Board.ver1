@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
-<%@ page import="java.sql.*,java.text.SimpleDateFormat" %>
-<%@ page import="java.text.ParseException" %>
+<%@ page import="org.board.jspboard.board.BoardVo" %>
+<%@ page import="java.util.List" %>
+<%@ page import="org.board.jspboard.board.BoardDao" %>
+<jsp:useBean id="dao" class="org.board.jspboard.board.BoardDao"/>
 <%
     final int size = 10; //한페이지 게시물 수
     final int block = 10; //페이지 하단 페이지 최대개수
@@ -27,30 +29,14 @@
 <body>
 
 <%
-    Class.forName("org.mariadb.jdbc.Driver");
-    String url = "jdbc:mariadb://localhost:3306/board";
-    String id = "root";
-    String pw = "1234";
-    int total = 0;
-
-    try {
-        Connection con = DriverManager.getConnection(url, id, pw);
-        Statement stmt = con.createStatement();
-
-        String sqlCount = "select count(*) from board";
-        ResultSet rs = stmt.executeQuery(sqlCount);
-
-        if (rs.next()) {
-            total = rs.getInt(1);
-        }
-
-
-
-        String sqlList = "select bno, category, title, writer, view, regDate, modDate from board order by bno desc";
-        rs = stmt.executeQuery(sqlList);
+    BoardDao boardDao = new BoardDao();
+    List<BoardVo> voList = boardDao.getBoardList();
+    int total = dao.count();
 %>
 
-총 <%=total%> 건<br/>
+<div>
+    총 <%=total%> 건
+</div>
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
     <tr style="text-align: center">
@@ -65,40 +51,20 @@
     <tr height="1" bgcolor="#82B5DF"><td colspan="6" width="752"></td></tr>
 
     <%
-        if (total == 0) {
-    %>
-    <tr align="center" bgcolor="#FFFFFF" height="30">
-        <td colspan="6">등록된 글이 없습니다.</td>
-    </tr>
-    <%
-    } else {
-        while (rs.next()) {
-            Long bno = rs.getLong(1);
-            String category = rs.getString(2);
-            String title = rs.getString(3);
-            String writer = rs.getString(4);
-            int view = rs.getInt(5);
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
-            String regDate = simpleDateFormat.format(rs.getTimestamp(6));
-            String modDate = null;
-            try {
-                modDate = simpleDateFormat.format(rs.getTimestamp(7));
-            } catch (NullPointerException e) {
-                modDate = "-";
-            }
-    %>
+        for (int i = 0; i < voList.size(); i++){
+            %>
     <tr height="25" align="center">
-        <td><%=category%>
+        <td><%=voList.get(i).getCategory()%>
         </td>
-        <td align="center"><a href="view.jsp?bno=<%=bno%>"><%=title%>
+        <td align="center"><a href="view.jsp?bno=<%=voList.get(i).getBno()%>"><%=voList.get(i).getTitle()%>
         </td>
-        <td align="center"><%=writer%>
+        <td align="center"><%=voList.get(i).getWriter()%>
         </td>
-        <td align="center"><%=view%>
+        <td align="center"><%=voList.get(i).getView()%>
         </td>
-        <td align="center"><%=regDate%>
+        <td align="center"><%=voList.get(i).getRegDate()%>
         </td>
-        <td align="center"><%=modDate%>
+        <td align="center"><%=voList.get(i).getModDate()%>
         </td>
         <td>&nbsp;</td>
     </tr>
@@ -106,13 +72,6 @@
         <td colspan="6"></td>
     </tr>
     <%
-                }
-            }
-            rs.close();
-            stmt.close();
-            con.close();
-        } catch (SQLException e) {
-                    System.out.println(e.getErrorCode());
         }
     %>
     <tr height="1" bgcolor="#82B5DF"><td colspan="6" width="752"></td></tr>

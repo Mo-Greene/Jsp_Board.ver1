@@ -8,7 +8,7 @@ import lombok.*;
  * Date : 2023/02/04
  * Description :
  */
-@Builder
+@Setter
 @Getter
 @ToString
 @NoArgsConstructor
