@@ -129,6 +129,11 @@ public class BoardDao {
         preparedStatement.executeUpdate();
     }
 
+    /**
+     * delete_ok.jsp -> 비밀번호 확인
+     * @param bno
+     * @param boardVo
+     */
     public boolean checkPassword(long bno, BoardVo boardVo) throws Exception {
         log.info("Board checkPassword.");
         String sql = "select bno from board where bno = " + bno + " and password = ?";
@@ -144,8 +149,6 @@ public class BoardDao {
         return check;
     }
 
-
-
     /**
      * delete_ok.jsp -> 게시글 삭제
      * @param bno
@@ -156,6 +159,20 @@ public class BoardDao {
 
         @Cleanup Connection connection = ConnectUtil.INSTANCE.getConnection();
         @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.executeUpdate();
+    }
+
+    public void modify(long bno, BoardVo vo) throws Exception {
+        log.info("BoardDao modify.");
+        String sql = "update board set writer = ?, title = ?, content = ?, modDate = current_timestamp " +
+                "where bno = " + bno;
+
+        @Cleanup Connection connection = ConnectUtil.INSTANCE.getConnection();
+        @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, vo.getWriter());
+        preparedStatement.setString(2, vo.getTitle());
+        preparedStatement.setString(3, vo.getContent());
+
         preparedStatement.executeUpdate();
     }
 }

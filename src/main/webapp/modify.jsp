@@ -1,9 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
+<jsp:useBean id="dao" class="org.board.jspboard.board.BoardDao"/>
+<jsp:useBean id="vo" class="org.board.jspboard.board.BoardVo"/>
 <%@ page import="java.sql.*" %>
-<%@ page import="java.time.LocalDateTime" %>
+<%@ page import="org.board.jspboard.board.BoardVo" %>
+<%
+    long bno = Long.parseLong(request.getParameter("bno"));
+    BoardVo boardVo = dao.getView(bno);
+%>
 <script language = "javascript">
-
     function modifyCheck() {
         var form = document.modifyForm;
 
@@ -40,49 +45,6 @@
     <title>게시판</title>
 </head>
 <body>
-<%
-    request.setCharacterEncoding("UTF-8");
-    Class.forName("org.mariadb.jdbc.Driver");
-    String url = "jdbc:mariadb://localhost:3306/board";
-    String id = "root";
-    String pw = "1234";
-
-    String category = "";
-    String regDate = "";
-    String modDate = "";
-    int view = 0;
-    String writer = "";
-    String password = "";
-    String title = "";
-    String content = "";
-    long bno = Long.parseLong(request.getParameter("bno"));
-
-    try {
-        Connection con = DriverManager.getConnection(url, id, pw);
-        Statement stmt = con.createStatement();
-
-        String sql = "Select category, regDate, modDate, view, writer, password, title, content " +
-                "from board where bno = " + bno;
-        ResultSet rs = stmt.executeQuery(sql);
-
-        if (rs.next()) {
-            category = rs.getString(1);
-            regDate = String.valueOf(rs.getDate(2));
-            modDate = String.valueOf(rs.getDate(3));
-            view = rs.getInt(4);
-            writer = rs.getString(5);
-            password = rs.getString(6);
-            title = rs.getString(7);
-            content = rs.getString(8);
-        }
-        rs.close();
-        stmt.close();
-        con.close();
-    } catch (SQLException e) {
-        System.out.println(e.getMessage());
-    }
-%>
-
 <table>
     <form name="modifyForm" method="post" action="modify_ok.jsp?bno=<%=bno%>">
         <tr>
@@ -98,31 +60,31 @@
                     <tr>
                         <td>&nbsp;</td>
                         <td align="center">카테고리</td>
-                        <td><%=category%></td>
+                        <td><%=boardVo.getCategory()%></td>
                     </tr>
                     <tr height="1" bgcolor="#dddddd"><td colspan="4"></td></tr>
                     <tr>
                         <td>&nbsp;</td>
                         <td align="center">등록 일시</td>
-                        <td><%=regDate%></td>
+                        <td><%=boardVo.getRegDate()%></td>
                     </tr>
                     <tr height="1" bgcolor="#dddddd"><td colspan="4"></td></tr>
                     <tr>
                         <td>&nbsp;</td>
                         <td align="center">수정 일시</td>
-                        <td><%=modDate%></td>
+                        <td><%=boardVo.getModDate()%></td>
                     </tr>
                     <tr height="1" bgcolor="#dddddd"><td colspan="4"></td></tr>
                     <tr>
                         <td>&nbsp;</td>
                         <td align="center">조회수</td>
-                        <td><%=view%></td>
+                        <td><%=boardVo.getView()%></td>
                     </tr>
                     <tr height="1" bgcolor="#dddddd"><td colspan="4"></td></tr>
                     <tr>
                         <td>&nbsp;</td>
                         <td align="center">작성자</td>
-                        <td><input name="writer" value="<%=writer%>" size="50" maxlength="50"></td>
+                        <td><input name="writer" value="<%=boardVo.getWriter()%>" size="50" maxlength="50"></td>
                         <td>&nbsp;</td>
                     </tr>
                     <tr height="1" bgcolor="#dddddd"><td colspan="4"></td></tr>
@@ -136,14 +98,14 @@
                     <tr>
                         <td>&nbsp;</td>
                         <td align="center">제목</td>
-                        <td><input value="<%=title%>" name="title" size="50" maxlength="100"></td>
+                        <td><input value="<%=boardVo.getTitle()%>" name="title" size="50" maxlength="100"></td>
                         <td>&nbsp;</td>
                     </tr>
                     <tr height="1" bgcolor="#dddddd"><td colspan="4"></td></tr>
                     <tr>
                         <td>&nbsp;</td>
                         <td align="center">내용</td>
-                        <td><textarea name="content" cols="50" rows="13"><%=content%></textarea></td>
+                        <td><textarea name="content" cols="50" rows="13"><%=boardVo.getContent()%></textarea></td>
                         <td>&nbsp;</td>
                     </tr>
                     <tr height="1" bgcolor="#dddddd"><td colspan="4"></td></tr>

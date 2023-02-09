@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.sql.*" %>
 <jsp:useBean id="dao" class="org.board.jspboard.board.BoardDao"/>
 <jsp:useBean id="vo" class="org.board.jspboard.board.BoardVo"/>
 <jsp:setProperty name="vo" property="*"/>
