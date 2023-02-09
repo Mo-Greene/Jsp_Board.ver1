@@ -8,15 +8,14 @@ import lombok.*;
  * Date : 2023/02/04
  * Description :
  */
-@Setter
-@Getter
+
 @ToString
+@Setter @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class BoardVo {
 
     private Long bno;
-    private String category;
     private boolean files;
     private String title;
     private String writer;
@@ -25,5 +24,6 @@ public class BoardVo {
     private String regDate;
     private String modDate;
     private String password;
+    private String category;
 
 }

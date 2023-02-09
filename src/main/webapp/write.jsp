@@ -25,7 +25,7 @@
             <td>
               <select name="category">
                 <option value="null">카테고리 선택</option>
-                <option value="Java">Java</option>
+                <option value="JAVA">Java</option>
                 <option value="C">C</option>
               </select>
             </td>

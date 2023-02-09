@@ -8,9 +8,8 @@ import lombok.*;
  * Date : 2023/02/07
  * Description :
  */
-@Setter
-@Getter
 @ToString
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReplyVo {
@@ -19,4 +18,5 @@ public class ReplyVo {
     private String replyContent;
     private String regDate;
     private Long bno;   //fk key
+
 }
