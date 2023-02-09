@@ -2,7 +2,7 @@ package org.board.jspboard.reply;
 
 import lombok.Cleanup;
 import lombok.extern.log4j.Log4j2;
-import org.board.jspboard.util.ConnectUtil;
+import org.board.jspboard.common.util.ConnectUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

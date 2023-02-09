@@ -2,7 +2,7 @@ package org.board.jspboard.board;
 
 import lombok.Cleanup;
 import lombok.extern.log4j.Log4j2;
-import org.board.jspboard.util.ConnectUtil;
+import org.board.jspboard.common.util.ConnectUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -126,6 +126,36 @@ public class BoardDao {
         preparedStatement.setLong(1, bno);
         log.info(getView(bno));
 
+        preparedStatement.executeUpdate();
+    }
+
+    public boolean checkPassword(long bno, BoardVo boardVo) throws Exception {
+        log.info("Board checkPassword.");
+        String sql = "select bno from board where bno = " + bno + " and password = ?";
+        boolean check = false;
+
+        @Cleanup Connection connection = ConnectUtil.INSTANCE.getConnection();
+        @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, boardVo.getPassword());
+
+        @Cleanup ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) check = true;
+
+        return check;
+    }
+
+
+
+    /**
+     * delete_ok.jsp -> 게시글 삭제
+     * @param bno
+     */
+    public void remove(long bno) throws Exception {
+        log.info("BoardDao remove.");
+        String sql = "delete from board where bno = " + bno;
+
+        @Cleanup Connection connection = ConnectUtil.INSTANCE.getConnection();
+        @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.executeUpdate();
     }
 }

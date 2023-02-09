@@ -1,4 +1,4 @@
-package org.board.jspboard.util;
+package org.board.jspboard.common.util;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

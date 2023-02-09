@@ -1,4 +1,4 @@
-package org.board.jspboard.filter;
+package org.board.jspboard.common.filter;
 
 import lombok.extern.log4j.Log4j2;
 
