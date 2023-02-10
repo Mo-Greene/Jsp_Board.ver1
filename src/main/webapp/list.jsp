@@ -46,8 +46,7 @@
         <td width="15%">등록일자</td>
         <td width="15%">수정일자</td>
     </tr>
-
-    <tr height="1" bgcolor="#82B5DF"><td colspan="6" width="752"></td></tr>
+    <br/>
 
     <%
         for (int i = 0; i < voList.size(); i++){
@@ -67,18 +66,15 @@
         </td>
         <td>&nbsp;</td>
     </tr>
-    <tr height="1" bgcolor="#D2D2D2">
-        <td colspan="6"></td>
-    </tr>
     <%
         }
     %>
-    <tr height="1" bgcolor="#82B5DF"><td colspan="6" width="752"></td></tr>
+    <tr height="0" bgcolor="#82B5DF"><td colspan="6" width="1"></td></tr>
 
     <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 10px">
         <tr><td colspan="4" height="5"></td></tr>
         <tr align="center">
-            <td><input type=button value="등록" onclick="window.location='write.jsp'"></td>
+            <td><input type=button class="btn btn-primary" value="등록" onclick="window.location='write.jsp'"></td>
         </tr>
     </table>
 
