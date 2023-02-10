@@ -1,4 +1,6 @@
 
+<%@ page import="org.board.jspboard.file.FileDao"%>
+<%@ page import="java.io.File"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <jsp:useBean id="dao" class="org.board.jspboard.board.BoardDao"/>
@@ -8,6 +10,15 @@
 
 <%
     dao.insert(vo);
+
+    /**
+     * Application => 전체 프로젝트에 대한 자원을 관리하는 객체
+     * maxSize = 100MB
+     */
+    String directory = application.getRealPath("/upload/");
+    int maxSize = 1024 * 1024 * 100;
+    String encoding = "UTF-8";
+
 %>
 
 <script language="javascript">

@@ -64,7 +64,6 @@
                 }
             %>
 
-            <tr height="1" bgcolor="#dddddd"><td colspan="4"></td></tr>
             <form name="replyForm" action="reply_ok.jsp?bno=<%=bno%>&page=<%=vPage%>" method="post">
                 <tr>
                     <td class="form-floating">
@@ -74,10 +73,9 @@
                     <td><button type="submit" class="btn btn-primary">댓글 저장</button></td>
                 </tr>
             </form>
-            <tr height="1" bgcolor="#dddddd"><td colspan="4"></td></tr>
 
             <tr>
-                <td colspan="2" width="399">
+                <td colspan="2" width="399" style="text-align: center">
                     <input type="button" class="btn btn-primary" value="목록" onclick="window.location='list.jsp?page=<%=vPage%>'">
                     <input type="button" class="btn btn-light" value="수정" onclick="window.location='modify.jsp?bno=<%=bno%>&page=<%=vPage%>'">
                     <input type="button" class="btn btn-danger" value="삭제" onclick="window.location='delete.jsp?bno=<%=bno%>&page=<%=vPage%>'">

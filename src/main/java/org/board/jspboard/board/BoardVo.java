@@ -25,5 +25,6 @@ public class BoardVo {
     private String modDate;
     private String password;
     private String category;
+    private Long cno; //fk 카테고리
 
 }

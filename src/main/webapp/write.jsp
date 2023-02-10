@@ -3,6 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
   <title>게시판</title>
 </head>
 <body>
@@ -23,10 +24,10 @@
             <td>&nbsp;</td>
             <td align="center">카테고리</td>
             <td>
-              <select name="category">
+              <select name="cno">
                 <option value="null">카테고리 선택</option>
-                <option value="JAVA">Java</option>
-                <option value="C">C</option>
+                <option value="1">Java</option>
+                <option value="2">C</option>
               </select>
             </td>
             <td>&nbsp;</td>
@@ -61,9 +62,29 @@
             <td>&nbsp;</td>
           </tr>
           <tr height="1" bgcolor="#dddddd"><td colspan="4"></td></tr>
-          <tr height="1" bgcolor="#82B5DF"><td colspan="4"></td></tr>
+
+          <form action="write_ok.jsp" method="post" enctype="multipart/form-data">
+            <tr>
+              <td></td>
+              <td></td>
+              <td class="input-group mb-3">
+                <input type="file" class="form-control" id="inputGroupFile1" name="file">
+                <label class="input-group-text" for="inputGroupFile1">파일 찾기</label>
+              </td>
+              <td class="input-group mb-3">
+                <input type="file" class="form-control" id="inputGroupFile2">
+                <label class="input-group-text" for="inputGroupFile2">파일 찾기</label>
+              </td>
+              <td class="input-group mb-3">
+                <input type="file" class="form-control" id="inputGroupFile3">
+                <label class="input-group-text" for="inputGroupFile3">파일 찾기</label>
+              </td>
+            </tr>
+          </form>
+
           <tr align="center">
             <td>&nbsp;</td>
+
             <td colspan="2">
               <input type=button value="저장" onclick="writeCheck()">
               <input type=button value="취소" onclick="javascript:history.back(-1)">
@@ -81,9 +102,9 @@
   function writeCheck() {
     var form = document.writeForm;
 
-    if (form.category.value == "null") {
+    if (form.cno.value == "null") {
       alert("카테고리를 정해주세요")
-      form.category.focus();
+      form.cno.focus();
       return;
     }
     if (!form.writer.value) {
@@ -114,3 +135,4 @@
     form.submit();
   }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>

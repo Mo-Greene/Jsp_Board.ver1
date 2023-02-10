@@ -34,11 +34,16 @@ public class BoardDao {
      */
     public List<BoardVo> getBoardList(int index_no) throws Exception {
         log.info("BoardDao getBoardList.");
-        String sql = "select bno, category, title, writer, view, regDate, modDate from board " +
-                "order by bno desc LIMIT " + index_no + ", 10";
+        String sql = "select bno, c.category, title, writer, view, regDate, modDate from board as b" +
+                     "JOIN category as c on b.cno = c.cno " +
+                     "order by bno desc " +
+                     "LIMIT " + index_no + ", 10";
+
+        String joinSql = "SELECT bno, c.category, title, writer, view, regDate, modDate from board b join category c on b.cno = c.cno " +
+                "order by bno desc limit " + index_no + ", 10";
 
         @Cleanup Connection connection = ConnectUtil.INSTANCE.getConnection();
-        @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(joinSql);
         @Cleanup ResultSet resultSet = preparedStatement.executeQuery();
 
         List<BoardVo> list = new ArrayList<>();
@@ -68,12 +73,12 @@ public class BoardDao {
      */
     public void insert(BoardVo vo) throws Exception {
         log.info("BoardDao insert.");
-        String sql = "INSERT INTO board(category, writer, password, title, content) VALUES(?,?,?,?,?)";
+        String sql = "INSERT INTO board(cno, writer, password, title, content) VALUES(?,?,?,?,?)";
 
         @Cleanup Connection connection = ConnectUtil.INSTANCE.getConnection();
         @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-        preparedStatement.setString(1, vo.getCategory());
+        preparedStatement.setLong(1, vo.getCno());
         preparedStatement.setString(2, vo.getWriter());
         preparedStatement.setString(3, vo.getPassword());
         preparedStatement.setString(4, vo.getTitle());
