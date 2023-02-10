@@ -7,7 +7,6 @@ import org.board.jspboard.common.util.ConnectUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +32,10 @@ public class BoardDao {
     /**
      * list.jsp -> 전체 조회
      */
-    public List<BoardVo> getBoardList() throws Exception {
+    public List<BoardVo> getBoardList(int index_no) throws Exception {
         log.info("BoardDao getBoardList.");
-        String sql = "select bno, category, title, writer, view, regDate, modDate from board order by bno desc";
+        String sql = "select bno, category, title, writer, view, regDate, modDate from board " +
+                "order by bno desc LIMIT " + index_no + ", 10";
 
         @Cleanup Connection connection = ConnectUtil.INSTANCE.getConnection();
         @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -162,6 +162,10 @@ public class BoardDao {
         preparedStatement.executeUpdate();
     }
 
+    /**
+     * modify_ok.jsp -> 내용 수정
+     * @param bno, BoardVo
+     */
     public void modify(long bno, BoardVo vo) throws Exception {
         log.info("BoardDao modify.");
         String sql = "update board set writer = ?, title = ?, content = ?, modDate = current_timestamp " +
@@ -175,4 +179,8 @@ public class BoardDao {
 
         preparedStatement.executeUpdate();
     }
+
+    /**
+     *
+     */
 }

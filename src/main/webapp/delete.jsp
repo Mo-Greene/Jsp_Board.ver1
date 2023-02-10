@@ -13,6 +13,7 @@
     }
 </script>
 <%
+    int vPage = Integer.parseInt(request.getParameter("page"));
     long bno = Long.parseLong(request.getParameter("bno"));
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -22,7 +23,7 @@
 </head>
 <body>
 <table>
-    <form name="deleteForm" method="post" action="delete_ok.jsp?bno=<%=bno%>">
+    <form name="deleteForm" method="post" action="delete_ok.jsp?bno=<%=bno%>&page=<%=vPage%>">
         <tr>
             <td>
                 <table width="100%" cellpadding="0" cellspacing="0" border="0">

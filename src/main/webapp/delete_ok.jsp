@@ -4,6 +4,7 @@
 <jsp:setProperty name="vo" property="*"/>
 
 <%
+    int vPage = Integer.parseInt(request.getParameter("page"));
     long bno = Long.parseLong(request.getParameter("bno"));
     boolean check = dao.checkPassword(bno, vo);
     if (check) {
@@ -11,7 +12,7 @@
 %>
 <script language=javascript>
     self.window.alert("해당 글을 삭제하였습니다.");
-    location.href = "list.jsp";
+    location.href = "list.jsp?page=<%=vPage%>";
 </script>
 <%
     } else {

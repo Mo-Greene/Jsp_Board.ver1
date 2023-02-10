@@ -2,9 +2,9 @@
          pageEncoding="UTF-8"%>
 <jsp:useBean id="dao" class="org.board.jspboard.board.BoardDao"/>
 <jsp:useBean id="vo" class="org.board.jspboard.board.BoardVo"/>
-<%@ page import="java.sql.*" %>
 <%@ page import="org.board.jspboard.board.BoardVo" %>
 <%
+    int vPage = Integer.parseInt(request.getParameter("page"));
     long bno = Long.parseLong(request.getParameter("bno"));
     BoardVo boardVo = dao.getView(bno);
 %>
@@ -46,7 +46,7 @@
 </head>
 <body>
 <table>
-    <form name="modifyForm" method="post" action="modify_ok.jsp?bno=<%=bno%>">
+    <form name="modifyForm" method="post" action="modify_ok.jsp?bno=<%=bno%>&page=<%=vPage%>">
         <tr>
             <td>
                 <table width="100%" cellpadding="0" cellspacing="0" border="0">

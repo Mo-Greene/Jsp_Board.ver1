@@ -5,9 +5,10 @@
 
 <%
     dao.replyInsert(vo);
+    int vPage = Integer.parseInt(request.getParameter("page"));
 %>
 
 <script>
     self.window.alert("댓글 작성 완료")
-    location.href = "view.jsp?bno=<%=vo.getBno()%>";
+    location.href = "view.jsp?bno=<%=vo.getBno()%>&page=<%=vPage%>";
 </script>

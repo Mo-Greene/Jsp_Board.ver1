@@ -6,6 +6,7 @@
 <jsp:useBean id="boardDao" class="org.board.jspboard.board.BoardDao"/>
 <jsp:useBean id="replyDao" class="org.board.jspboard.reply.ReplyDao"/>
 <%
+    int vPage = Integer.parseInt(request.getParameter("page"));
     long bno = Long.parseLong(request.getParameter("bno"));
     BoardVo boardVo = boardDao.getView(bno);
     List<ReplyVo> replyVo = replyDao.getReplyList(bno);
@@ -52,7 +53,7 @@
     %>
 
     <tr height="1" bgcolor="#dddddd"><td colspan="4"></td></tr>
-    <form name="replyForm" action="reply_ok.jsp?bno=<%=bno%>" method="post">
+    <form name="replyForm" action="reply_ok.jsp?bno=<%=bno%>&page=<%=vPage%>" method="post">
         <tr>
             <td><textarea name="replyContent" cols="50" rows="6"></textarea></td>
             <td><button type="submit">댓글 저장</button></td>
@@ -62,9 +63,9 @@
 
     <tr>
         <td colspan="2" width="399">
-            <input type="button" value="목록" onclick="window.location='list.jsp'">
-            <input type="button" value="수정" onclick="window.location='modify.jsp?bno=<%=bno%>'">
-            <input type="button" value="삭제" onclick="window.location='delete.jsp?bno=<%=bno%>'">
+            <input type="button" value="목록" onclick="window.location='list.jsp?page=<%=vPage%>'">
+            <input type="button" value="수정" onclick="window.location='modify.jsp?bno=<%=bno%>&page=<%=vPage%>'">
+            <input type="button" value="삭제" onclick="window.location='delete.jsp?bno=<%=bno%>&page=<%=vPage%>'">
         </td>
     </tr>
 </table>
