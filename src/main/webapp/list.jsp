@@ -3,8 +3,9 @@
 <%@ page import="org.board.jspboard.board.BoardVo" %>
 <%@ page import="java.util.List" %>
 <%@ page import="org.board.jspboard.board.BoardDao" %>
+<%@ page import="java.util.ArrayList" %>
 <jsp:useBean id="dao" class="org.board.jspboard.board.BoardDao"/>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,6 +21,7 @@
         vPage = "1";
     }
     int viewPage = Integer.parseInt(vPage);
+    if (viewPage > totalPage || viewPage < 1) viewPage = 1;
     int index_no = (viewPage - 1) * 10;
     int currentBlock = viewPage % 10 == 0 ? viewPage / 10 : (viewPage / 10) + 1;
     int startPage = (currentBlock - 1) * 10 + 1;    //페이징 블럭 시작
@@ -28,12 +30,62 @@
         endPage = totalPage;
     }
 %>
+<div style="margin-left: 20px">
+        <h1><a href="list.jsp">자유 게시판 - 목록</a></h1>
+</div>
+
+
+<form action="list.jsp" method="post">
+    <div class="container">
+        <div class="row" style="padding: inherit">
+            <div class="col-sm-1">
+                <input type="date" name="searchStartDate" id="searchStartDate" value="searchStartDate" style="width: 100px">
+            </div>
+            <div class="col-sm-1">
+                <input type="date" name="searchEndDate" id="searchEndDate" value="searchEndDate" style="width: 100px">
+            </div>
+            <div class="col-md-2">
+                <select name = "cno" id = "searchType"  class="form-select form-select mb-3">
+                    <option value="null">전체 카테고리</option>
+                    <option value="1">JAVA</option>
+                    <option value="2">C</option>
+                </select>
+            </div>
+            <div class="col-md-5">
+                <input type="text" name = "searchKeyword" class="form-control" placeholder="검색어를 입력해 주세요.(제목 + 작성자 + 내용)" aria-describedby="button-addon2" maxlength='20'>
+            </div>
+            <div class="col-md-1"><button class="btn btn-outline-secondary" type="submit" id="button-addon2">검색</button>
+            </div>
+        </div>
+    </div>
+</form>
+
 <%
     BoardDao boardDao = new BoardDao();
-    List<BoardVo> voList = boardDao.getBoardList(index_no);
+    List<BoardVo> voList = new ArrayList<>();
+
+    if (request.getParameter("searchStartDate") != null ||
+            request.getParameter("searchEndDate") != null ||
+            request.getParameter("cno") != null ||
+            request.getParameter("searchKeyword") != null){
+        long cno = Long.parseLong(request.getParameter("cno"));
+        String searchStartDate = request.getParameter("searchStartDate");
+        String searchEndDate = request.getParameter("searchEndDate");
+        String searchKeyword = request.getParameter("searchKeyword");
+
+        voList = boardDao.searchBoardList(cno, searchStartDate, searchEndDate, searchKeyword);
+    } else voList = boardDao.getBoardList(index_no);
+//    if (request.getParameter("searchStartDate").equals("") &&
+//            request.getParameter("searchEndDate").equals("") &&
+//            request.getParameter("cno").equals("") &&
+//            request.getParameter("searchKeyword").equals("")){
+//
+//        voList = boardDao.getBoardList(index_no);
+//    }
+//    voList = boardDao.getBoardList(index_no);
 %>
 
-<div>
+<div style="margin-left: 20px">
     총 <%=total%> 건
 </div>
 

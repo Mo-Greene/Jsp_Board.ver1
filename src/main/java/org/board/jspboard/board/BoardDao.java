@@ -34,16 +34,12 @@ public class BoardDao {
      */
     public List<BoardVo> getBoardList(int index_no) throws Exception {
         log.info("BoardDao getBoardList.");
-        String sql = "select bno, c.category, title, writer, view, regDate, modDate from board as b" +
-                     "JOIN category as c on b.cno = c.cno " +
-                     "order by bno desc " +
-                     "LIMIT " + index_no + ", 10";
 
-        String joinSql = "SELECT bno, c.category, title, writer, view, regDate, modDate from board b join category c on b.cno = c.cno " +
+        String sql = "SELECT bno, c.category, title, writer, view, regDate, modDate from board b join category c on b.cno = c.cno " +
                 "order by bno desc limit " + index_no + ", 10";
 
         @Cleanup Connection connection = ConnectUtil.INSTANCE.getConnection();
-        @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(joinSql);
+        @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
         @Cleanup ResultSet resultSet = preparedStatement.executeQuery();
 
         List<BoardVo> list = new ArrayList<>();
@@ -93,8 +89,8 @@ public class BoardDao {
      */
     public BoardVo getView(long bno) throws Exception {
         log.info("BoardDao getView.");
-        String sql = "select writer, title, content, regDate, modDate, view, category " +
-                "from board where bno = " + bno;
+        String sql = "select writer, title, content, regDate, modDate, view, c.category " +
+                "from board b join category c on b.cno = c.cno where bno = " + bno;
 
         @Cleanup Connection connection = ConnectUtil.INSTANCE.getConnection();
         @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -183,5 +179,43 @@ public class BoardDao {
         preparedStatement.setString(3, vo.getContent());
 
         preparedStatement.executeUpdate();
+    }
+
+    /**
+     * list.jsp -> 검색조건
+     * @param cno
+     * @param searchStartDate
+     * @param searchEndDate
+     * @param searchKeyword
+     */
+    public List<BoardVo> searchBoardList(Long cno, String searchStartDate, String searchEndDate, String searchKeyword) throws Exception {
+        log.info("BoardDao searchBoardList.");
+        String sql = "select c.category, title, writer, view, regDate, modDate from board b join category c on c.cno = b.cno " +
+                "where (regDate between '" + searchStartDate + "' and '" + searchEndDate + "') " +
+                "and (writer like '%" + searchKeyword + "%' or " +
+                "title like '%" + searchKeyword + "%' or " +
+                "content like '%" + searchKeyword + "%') " +
+                "and c.category = '" + cno + "'";
+
+        @Cleanup Connection connection = ConnectUtil.INSTANCE.getConnection();
+        @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        @Cleanup ResultSet resultSet = preparedStatement.executeQuery();
+
+        List<BoardVo> list = new ArrayList<>();
+        while (resultSet.next()) {
+            BoardVo vo = new BoardVo();
+            vo.setCategory(resultSet.getString(1));
+            vo.setTitle(resultSet.getString(2));
+            vo.setWriter(resultSet.getString(3));
+            vo.setView(resultSet.getInt(4));
+            vo.setRegDate(simpleDateFormat.format(resultSet.getTimestamp(5)));
+            try {
+                vo.setModDate(simpleDateFormat.format(resultSet.getTimestamp(6)));
+            } catch (NullPointerException e) {
+                vo.setModDate("-");
+            }
+            list.add(vo);
+        }
+        return list;
     }
 }

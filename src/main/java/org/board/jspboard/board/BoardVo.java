@@ -27,4 +27,8 @@ public class BoardVo {
     private String category;
     private Long cno; //fk 카테고리
 
+    private String searchStartDate;
+    private String searchEndDate;
+    private String searchKeyword;
+
 }
