@@ -179,8 +179,4 @@ public class BoardDao {
 
         preparedStatement.executeUpdate();
     }
-
-    /**
-     *
-     */
 }
