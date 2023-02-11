@@ -74,6 +74,8 @@ public class BoardDao {
         String sql = "INSERT INTO board(cno, writer, password, title, content) " +
                      "VALUES(?,?,?,?,?)";
 
+        //TODO: 유효성 검증 로직 구현 필요
+
         @Cleanup Connection connection = ConnectUtil.INSTANCE.getConnection();
         @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
@@ -174,8 +176,10 @@ public class BoardDao {
      */
     public void modify(long bno, BoardVo vo) throws Exception {
         log.info("BoardDao modify.");
-        String sql = "update board set writer = ?, title = ?, content = ?, modDate = current_timestamp " +
-                "where bno = " + bno;
+        String sql =
+                "UPDATE board " +
+                        "SET writer = ?, title = ?, content = ?, modDate = current_timestamp " +
+                "WHERE bno = " + bno;
 
         @Cleanup Connection connection = ConnectUtil.INSTANCE.getConnection();
         @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -195,7 +199,10 @@ public class BoardDao {
      */
     public List<BoardVo> searchBoardList(Long cno, String searchStartDate, String searchEndDate, String searchKeyword) throws Exception {
         log.info("BoardDao searchBoardList.");
-        String sql = "select c.category, title, writer, view, regDate, modDate from board b join category c on c.cno = b.cno " +
+        String sql =
+                "select c.category, title, writer, view, regDate, modDate " +
+                        "from board b" +
+                        " join category c on c.cno = b.cno " +
                 "where (regDate between '" + searchStartDate + "' and '" + searchEndDate + "') " +
                 "and (writer like '%" + searchKeyword + "%' or " +
                 "title like '%" + searchKeyword + "%' or " +

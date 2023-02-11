@@ -17,7 +17,10 @@ public class ReplyDao {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
 
     /**
-     * view.jsp -> 댓글목록 조회
+     * 이 메서드의 목적. 의도. 주의할 점.
+     * @param bno PK번호
+     * @return 목록을 리턴함.
+     * @throws Exception
      */
     public List<ReplyVo> getReplyList(long bno) throws Exception {
         log.info("ReplyDao getReplyList.");
