@@ -64,17 +64,17 @@
     BoardDao boardDao = new BoardDao();
     List<BoardVo> voList = new ArrayList<>();
 
-    if (request.getParameter("searchStartDate") != null ||
-            request.getParameter("searchEndDate") != null ||
-            request.getParameter("cno") != null ||
-            request.getParameter("searchKeyword") != null){
-        long cno = Long.parseLong(request.getParameter("cno"));
-        String searchStartDate = request.getParameter("searchStartDate");
-        String searchEndDate = request.getParameter("searchEndDate");
-        String searchKeyword = request.getParameter("searchKeyword");
-
-        voList = boardDao.searchBoardList(cno, searchStartDate, searchEndDate, searchKeyword);
-    } else voList = boardDao.getBoardList(index_no);
+//    if (request.getParameter("searchStartDate") != null ||
+//            request.getParameter("searchEndDate") != null ||
+//            request.getParameter("cno") != null ||
+//            request.getParameter("searchKeyword") != null){
+//        long cno = Long.parseLong(request.getParameter("cno"));
+//        String searchStartDate = request.getParameter("searchStartDate");
+//        String searchEndDate = request.getParameter("searchEndDate");
+//        String searchKeyword = request.getParameter("searchKeyword");
+//
+//        voList = boardDao.searchBoardList(cno, searchStartDate, searchEndDate, searchKeyword);
+//    } else voList = boardDao.getBoardList(index_no);
 //    if (request.getParameter("searchStartDate").equals("") &&
 //            request.getParameter("searchEndDate").equals("") &&
 //            request.getParameter("cno").equals("") &&
@@ -82,7 +82,7 @@
 //
 //        voList = boardDao.getBoardList(index_no);
 //    }
-//    voList = boardDao.getBoardList(index_no);
+    voList = boardDao.getBoardList(index_no);
 %>
 
 <div style="margin-left: 20px">

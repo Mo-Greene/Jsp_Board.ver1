@@ -35,8 +35,10 @@ public class BoardDao {
     public List<BoardVo> getBoardList(int index_no) throws Exception {
         log.info("BoardDao getBoardList.");
 
-        String sql = "SELECT bno, c.category, title, writer, view, regDate, modDate from board b join category c on b.cno = c.cno " +
-                "order by bno desc limit " + index_no + ", 10";
+        String sql = "SELECT bno, c.category, title, writer, view, regDate, modDate " +
+                     "from board b " +
+                     "join category c on b.cno = c.cno " +
+                     "order by bno desc limit " + index_no + ", 10";
 
         @Cleanup Connection connection = ConnectUtil.INSTANCE.getConnection();
         @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -69,7 +71,8 @@ public class BoardDao {
      */
     public void insert(BoardVo vo) throws Exception {
         log.info("BoardDao insert.");
-        String sql = "INSERT INTO board(cno, writer, password, title, content) VALUES(?,?,?,?,?)";
+        String sql = "INSERT INTO board(cno, writer, password, title, content) " +
+                     "VALUES(?,?,?,?,?)";
 
         @Cleanup Connection connection = ConnectUtil.INSTANCE.getConnection();
         @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -90,7 +93,9 @@ public class BoardDao {
     public BoardVo getView(long bno) throws Exception {
         log.info("BoardDao getView.");
         String sql = "select writer, title, content, regDate, modDate, view, c.category " +
-                "from board b join category c on b.cno = c.cno where bno = " + bno;
+                     "from board b " +
+                     "join category c on b.cno = c.cno " +
+                     "where bno = " + bno;
 
         @Cleanup Connection connection = ConnectUtil.INSTANCE.getConnection();
         @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);

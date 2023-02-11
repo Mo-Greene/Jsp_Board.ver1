@@ -63,28 +63,8 @@
           </tr>
           <tr height="1" bgcolor="#dddddd"><td colspan="4"></td></tr>
 
-          <form action="write_ok.jsp" method="post" enctype="multipart/form-data">
-            <tr>
-              <td></td>
-              <td></td>
-              <td class="input-group mb-3">
-                <input type="file" class="form-control" id="inputGroupFile1" name="file">
-                <label class="input-group-text" for="inputGroupFile1">파일 찾기</label>
-              </td>
-              <td class="input-group mb-3">
-                <input type="file" class="form-control" id="inputGroupFile2">
-                <label class="input-group-text" for="inputGroupFile2">파일 찾기</label>
-              </td>
-              <td class="input-group mb-3">
-                <input type="file" class="form-control" id="inputGroupFile3">
-                <label class="input-group-text" for="inputGroupFile3">파일 찾기</label>
-              </td>
-            </tr>
-          </form>
-
           <tr align="center">
             <td>&nbsp;</td>
-
             <td colspan="2">
               <input type=button value="저장" onclick="writeCheck()">
               <input type=button value="취소" onclick="javascript:history.back(-1)">

@@ -21,8 +21,8 @@ public class ReplyDao {
      */
     public List<ReplyVo> getReplyList(long bno) throws Exception {
         log.info("ReplyDao getReplyList.");
-        String sql = "select replyContent, regDate from reply where bno = " + bno +
-                " order by regDate desc";
+        String sql = "select replyContent, regDate from reply " +
+                     "where bno = " + bno + " order by regDate desc";
 
         @Cleanup Connection connection = ConnectUtil.INSTANCE.getConnection();
         @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -45,7 +45,7 @@ public class ReplyDao {
     public void replyInsert(ReplyVo vo) throws Exception {
         log.info("ReplyDao replyInsert.");
         String sql = "insert into reply (replyContent, regDate, bno) " +
-                "values (?, default, ?)";
+                     "values (?, default, ?)";
 
         @Cleanup Connection connection = ConnectUtil.INSTANCE.getConnection();
         @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
