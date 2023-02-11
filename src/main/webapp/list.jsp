@@ -14,6 +14,9 @@
 </head>
 <body>
 <%
+    // 로직은 캡슐화
+//    Pagination pgVal = modelDao.get...();
+
     int total = dao.count();
     int totalPage = (int) Math.ceil((double)total / 10);
     String vPage = request.getParameter("page");
