@@ -10,7 +10,7 @@
    * Application => 전체 프로젝트에 대한 자원을 관리하는 객체
    * maxSize = 100MB
    */
-  String directory = "/Users/mogreene/Desktop/upload";
+  String directory = "/Users/mogreene/Desktop/upload/";
   int maxSize = 1024 * 1024 * 100;
   String encoding = "UTF-8";
   DefaultFileRenamePolicy policy = new DefaultFileRenamePolicy();

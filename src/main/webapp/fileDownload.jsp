@@ -7,7 +7,7 @@
 <body>
 
 <%
-    String directory = "/Users/mogreene/Desktop/upload";
+    String directory = "/Users/mogreene/Desktop/upload/";
     String[] files = new File(directory).list();
 
     for (String file : files) {

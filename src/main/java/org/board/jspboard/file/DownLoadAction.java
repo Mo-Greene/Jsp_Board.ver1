@@ -16,7 +16,7 @@ public class DownLoadAction extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String fileName = req.getParameter("file");
-        String directory = this.getServletContext().getRealPath("/upload/");
+        String directory = "/Users/mogreene/Desktop/upload/";
         File file = new File(directory + "/" + fileName);
 
         String mimeType = getServletContext().getMimeType(file.toString());
