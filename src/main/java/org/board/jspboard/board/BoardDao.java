@@ -16,7 +16,9 @@ public class BoardDao {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
 
     public int count() throws Exception {
-        String sql = "select count(*) from board";
+        String sql =
+                "SELECT count(*) " +
+                "FROM board";
         int total = 0;
 
         @Cleanup Connection connection = ConnectUtil.INSTANCE.getConnection();
@@ -35,10 +37,11 @@ public class BoardDao {
     public List<BoardVo> getBoardList(int index_no) throws Exception {
         log.info("BoardDao getBoardList.");
 
-        String sql = "SELECT bno, c.category, title, writer, view, regDate, modDate " +
-                     "from board b " +
-                     "join category c on b.cno = c.cno " +
-                     "order by bno desc limit " + index_no + ", 10";
+        String sql =
+                "SELECT bno, c.category, title, writer, view, regDate, modDate " +
+                "FROM board b " +
+                    "JOIN category c ON b.cno = c.cno " +
+                "ORDER BY bno DESC limit " + index_no + ", 10";
 
         @Cleanup Connection connection = ConnectUtil.INSTANCE.getConnection();
         @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -71,8 +74,9 @@ public class BoardDao {
      */
     public void insert(BoardVo vo) throws Exception {
         log.info("BoardDao insert.");
-        String sql = "INSERT INTO board(cno, writer, password, title, content) " +
-                     "VALUES(?,?,?,?,?)";
+        String sql =
+                "INSERT INTO board(cno, writer, password, title, content) " +
+                "VALUES(?,?,?,?,?)";
 
         //TODO: 유효성 검증 로직 구현 필요
 
@@ -94,10 +98,11 @@ public class BoardDao {
      */
     public BoardVo getView(long bno) throws Exception {
         log.info("BoardDao getView.");
-        String sql = "select writer, title, content, regDate, modDate, view, c.category " +
-                     "from board b " +
-                     "join category c on b.cno = c.cno " +
-                     "where bno = " + bno;
+        String sql =
+                "SELECT writer, title, content, regDate, modDate, view, c.category " +
+                "FROM board b " +
+                "JOIN category c ON b.cno = c.cno " +
+                "WHERE bno = " + bno;
 
         @Cleanup Connection connection = ConnectUtil.INSTANCE.getConnection();
         @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -127,7 +132,10 @@ public class BoardDao {
      */
     public void viewUpdate(long bno) throws Exception {
         log.info("BoardDao viewUpdate.");
-        String sql = "update board set view = view + 1 where bno = " + bno;
+        String sql =
+                "UPDATE board " +
+                "SET view = view + 1 " +
+                "WHERE bno = " + bno;
 
         @Cleanup Connection connection = ConnectUtil.INSTANCE.getConnection();
         @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -144,7 +152,12 @@ public class BoardDao {
      */
     public boolean checkPassword(long bno, BoardVo boardVo) throws Exception {
         log.info("Board checkPassword.");
-        String sql = "select bno from board where bno = " + bno + " and password = ?";
+        String sql =
+                "SELECT bno " +
+                "FROM board " +
+                "WHERE bno = " + bno + " " +
+                "AND password = ?";
+
         boolean check = false;
 
         @Cleanup Connection connection = ConnectUtil.INSTANCE.getConnection();
@@ -163,7 +176,9 @@ public class BoardDao {
      */
     public void remove(long bno) throws Exception {
         log.info("BoardDao remove.");
-        String sql = "delete from board where bno = " + bno;
+        String sql =
+                "DELETE FROM board " +
+                "WHERE bno = " + bno;
 
         @Cleanup Connection connection = ConnectUtil.INSTANCE.getConnection();
         @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -178,7 +193,7 @@ public class BoardDao {
         log.info("BoardDao modify.");
         String sql =
                 "UPDATE board " +
-                        "SET writer = ?, title = ?, content = ?, modDate = current_timestamp " +
+                "SET writer = ?, title = ?, content = ?, modDate = current_timestamp " +
                 "WHERE bno = " + bno;
 
         @Cleanup Connection connection = ConnectUtil.INSTANCE.getConnection();
